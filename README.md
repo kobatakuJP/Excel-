@@ -5,7 +5,13 @@
 
 ## usage
 
-
+```
+> kinmuExcelRead.vbs
+```
+前提
+- `setting.ini` (vbsと同じフォルダ配下)
+- 勤務表Excel (`setting.ini`で指定したパス配下)
+- 勤務表Excelが最新化されている
 
 ### setting.ini
 

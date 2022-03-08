@@ -130,7 +130,7 @@ Function get_file_from_folder(folder)
         Set objFiles = objFolder.Files
         Dim objRegExp
         Set objRegExp = CreateObject("VBScript.RegExp")
-        objRegExp.Pattern = get_ini("settings","filepattern","setting.ini")
+        objRegExp.Pattern = "^"+get_month_prefix()+"*"
         Dim objFile, objExcel, excel, sheet ' forï∂Ç»Ç¢Ç≈égÇ§ïœêîÇÁ
         For Each objFile In objFiles
             WScript.Echo objFile.name
@@ -151,3 +151,8 @@ Function get_file_from_folder(folder)
     Set fso = Nothing
 End Function
 get_file_from_folder(get_ini("settings","dirname","setting.ini"))
+
+Function get_month_prefix()
+    get_month_prefix = Replace(Left(Now(),7), "/", "")
+End Function
+WScript.Echo get_month_prefix()
