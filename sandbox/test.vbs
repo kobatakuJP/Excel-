@@ -130,7 +130,7 @@ Function get_file_from_folder(folder)
         Set objFiles = objFolder.Files
         Dim objRegExp
         Set objRegExp = CreateObject("VBScript.RegExp")
-        objRegExp.Pattern = "^Book*"
+        objRegExp.Pattern = get_ini("settings","filepattern","setting.ini")
         Dim objFile, objExcel, excel, sheet ' for文ないで使う変数ら
         For Each objFile In objFiles
             WScript.Echo objFile.name
@@ -140,7 +140,7 @@ Function get_file_from_folder(folder)
                 Set sheet = excel.WorkSheets.Item(1)
                 WScript.Echo sheet.Cells(1, 1)
             Else
-                WScript.Echo objFile.name+"は目的のファイルではない"
+                WScript.Echo "無視ファイル："+objFile.name
             End If
             objExcel.Quit()
         Next
@@ -150,4 +150,4 @@ Function get_file_from_folder(folder)
 
     Set fso = Nothing
 End Function
-get_file_from_folder("../sampleBook")
+get_file_from_folder(get_ini("settings","dirname","setting.ini"))
