@@ -12,6 +12,23 @@ else
     WScript.Echo "0以外です"
 end if
 
+' 文字列比較、パターン一致
+Dim objRE
+Set objRE = CreateObject("VBScript.RegExp")
+objRE.Pattern = "^aaa.*bbb.ccczzz$"
+
+If objRE.Test("aaaxxxbbbyccczzz") Then
+ WScript.Echo "ヒット"
+Else
+ WScript.Echo "アウト"
+End If
+If objRE.Test("bbaaaxxxbbbyccczzz") Then
+ WScript.Echo "ヒット"
+Else
+ WScript.Echo "アウト"
+End If
+Set objRE = Nothing
+
 ' for文
 for a = 1 To 5
     WScript.Echo a
@@ -100,7 +117,7 @@ End Function
 WScript.Echo get_ini("test1","data2","setting.ini")
 ' ここまで initファイル取得。面倒くさすぎん！？
 
-' フォルダ内のExcelファイルのA1を表示
+' フォルダ内の特定のファイル名のExcelファイルのA1を表示
 Function get_file_from_folder(folder)
 
     Dim fso         'file system object
@@ -111,13 +128,20 @@ Function get_file_from_folder(folder)
         Set objFolder = fso.GetFolder(folder)
         Dim objFiles
         Set objFiles = objFolder.Files
+        Dim objRegExp
+        Set objRegExp = CreateObject("VBScript.RegExp")
+        objRegExp.Pattern = "^Book*"
         Dim objFile, objExcel, excel, sheet ' for文ないで使う変数ら
         For Each objFile In objFiles
             WScript.Echo objFile.name
-            Set objExcel = WScript.CreateObject("Excel.Application")
-            Set excel = objExcel.WorkBooks.Open(objFile)
-            Set sheet = excel.WorkSheets.Item(1)
-            WScript.Echo sheet.Cells(1, 1)
+            If objRegExp.Test(objFile.name) Then
+                Set objExcel = WScript.CreateObject("Excel.Application")
+                Set excel = objExcel.WorkBooks.Open(objFile)
+                Set sheet = excel.WorkSheets.Item(1)
+                WScript.Echo sheet.Cells(1, 1)
+            Else
+                WScript.Echo objFile.name+"は目的のファイルではない"
+            End If
             objExcel.Quit()
         Next
     else
