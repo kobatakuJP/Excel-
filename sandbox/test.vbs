@@ -100,7 +100,7 @@ End Function
 WScript.Echo get_ini("test1","data2","setting.ini")
 ' ここまで initファイル取得。面倒くさすぎん！？
 
-' フォルダのファイル名表示
+' フォルダ内のExcelファイルのA1を表示
 Function get_file_from_folder(folder)
 
     Dim fso         'file system object
@@ -112,8 +112,16 @@ Function get_file_from_folder(folder)
         Dim objFiles
         Set objFiles = objFolder.Files
         Dim objFile
+        Dim objExcel
+        Dim excel
+        Dim sheet
         For Each objFile In objFiles
             WScript.Echo objFile.name
+            Set objExcel = WScript.CreateObject("Excel.Application")
+            Set excel = objExcel.WorkBooks.Open(objFile)
+            Set sheet = excel.WorkSheets.Item(1)
+            WScript.Echo sheet.Cells(1, 1)
+            objExcel.Quit()
         Next
     else
         WScript.Echo folder+"というフォルダはないです"
