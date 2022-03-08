@@ -111,10 +111,7 @@ Function get_file_from_folder(folder)
         Set objFolder = fso.GetFolder(folder)
         Dim objFiles
         Set objFiles = objFolder.Files
-        Dim objFile
-        Dim objExcel
-        Dim excel
-        Dim sheet
+        Dim objFile, objExcel, excel, sheet ' forï∂Ç»Ç¢Ç≈égÇ§ïœêîÇÁ
         For Each objFile In objFiles
             WScript.Echo objFile.name
             Set objExcel = WScript.CreateObject("Excel.Application")
